@@ -5,13 +5,25 @@ const bcrypt = require('bcrypt');
 const _ = require('underscore');
 
 const Usuario = require('../models/usuario');
+//esta es otra manera de importar, pero pudo ser como las otras importando toda
+//la libreria, se puede usar cualquiera de las 2
+const { verificaToken, verificaAdmin_Role } = require('../middlewares/autenticacion');
+
 
 const app = express();
 
 //mostrar registros que solo esten activos e igual el conteo solo activos
 //con la condición {estado: true}
 
-app.get('/usuario', function (req, res) {
+//los midelwares se colocan como segundo argumento en este tipo de servicios usando express
+app.get('/usuario', verificaToken, (req, res) => {
+
+    /*Solo para probar que trai la información y funcionaba el verificaToken
+    return res.json({
+        usuario: req.usuario,
+        nombre: req.usuario.nombre,
+        email: req.usuario.email
+    });*/
 
     //los parametros opcionales caen dentro dentro de un objeto llamado en el resq .query
     //y ese query puedo suponer que vaa venir una variable llamada .desde
@@ -47,18 +59,13 @@ app.get('/usuario', function (req, res) {
                     });
 
                 });
-
                 
-
-
-
             });
-
 
     //res.json  ('Get usuario LOCAL');
   });
   
-  app.post('/usuario', function (req, res) {
+  app.post('/usuario',[verificaToken, verificaAdmin_Role], function (req, res) {
   
       let body = req.body;
 
@@ -106,7 +113,7 @@ app.get('/usuario', function (req, res) {
       //res.json  ('Post usuario');
   });
   
-  app.put('/usuario/:id', function (req, res) {
+  app.put('/usuario/:id',[verificaToken, verificaAdmin_Role], function (req, res) {
       //obtener ese parametro
       let id = req.params.id;
       //recibe el objeto que tiene todas las propiedads => req.body
@@ -138,7 +145,7 @@ app.get('/usuario', function (req, res) {
   });
 
   
-  app.delete('/usuario/:id', function (req, res) {
+  app.delete('/usuario/:id',[verificaToken, verificaAdmin_Role], function (req, res) {
       
     let id = req.params.id;
 
