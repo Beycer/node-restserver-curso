@@ -1,0 +1,7 @@
+
+user: Beycer
+
+contraseña:  7whLeFylkm51hrhc
+
+MongoDB URL
+mongodb+srv://Beycer:7whLeFylkm51hrhc@cluster0.soxjw.mongodb.net/cafe

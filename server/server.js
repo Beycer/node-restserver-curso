@@ -3,6 +3,9 @@ require("./config/config");//al ser este el primer archivo cuando empieze
 //a configurar todo lo que el contenga
 
 const express = require('express');
+const mongoose = require('mongoose');
+
+
 const app = express();
 
 const bodyParser = require('body-parser');
@@ -17,46 +20,34 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 
+//de esta manera usamos e importamos las rutas del usuario
+app.use(require('./routes/usuario'));
 
-app.get('/usuario', function (req, res) {
-  res.json  ('Get usuario');
-});
 
-app.post('/usuario', function (req, res) {
-
-    let body = req.body;
-
-    if(body.nombre === undefined){
-
-        res.status(400).json({
-            ok: false,
-            mensaje: 'El nombre es necesario'
+mongoose.connect(process.env.URLDB, {//estoy mandando estas configuraciones
+            useNewUrlParser: true,
+            useFindAndModify: false,
+            useCreateIndex: true,
+            useUnifiedTopology: true
+        }, (err) => {
+            if (err) {
+                throw err;
+ 
+            }
+            console.log('Base de Datos online');
+ 
         });
 
-    }else{
-        res.json({
-            paersona: body
-        });
-    }
-    
-    //res.json  ('Post usuario');
-});
-
-app.put('/usuario/:id', function (req, res) {
-    //obtener ese parametro
-    let id = req.params.id;
-
-    res.json({
-        id
-    });
-
-    //res.json  ('Put usuario');
-});
-
-app.delete('/usuario', function (req, res) {
-    res.json  ('Delete usuario');
-});
 
 app.listen(process.env.PORT, () => {
     console.log('escuchando puerto', process.env.PORT);
 });
+
+
+
+
+
+
+
+
+//https://github.com/Klerith/node-restserver-curso/releases/tag/v0.0.2
