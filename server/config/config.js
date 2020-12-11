@@ -21,25 +21,7 @@ let urlDB;
 if(process.env.NODE_ENV === 'dev') {
     urlDB = 'mongodb://localhost:27017/cafe';
 }else{
-    urlDB = 'mongodb+srv://Beycer:7whLeFylkm51hrhc@cluster0.soxjw.mongodb.net/cafe';
+    urlDB = process.env.MONGO_URI;
 }
 
 process.env.URLDB = urlDB;
-
-
-
-
-
-
-
-
-/**
- * Mongo DB Atlas
-
-user: Beycer
-
-contraseña:  7whLeFylkm51hrhc
-
-MongoDB URL
-mongodb+srv://Beycer:7whLeFylkm51hrhc@cluster0.soxjw.mongodb.net/cafe
- */
