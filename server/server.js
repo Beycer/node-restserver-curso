@@ -4,6 +4,7 @@ require("./config/config");//al ser este el primer archivo cuando empieze
 
 const express = require('express');
 const mongoose = require('mongoose');
+const path = require('path'); //paquete que ya trae node por defecto
 
 
 const app = express();
@@ -19,9 +20,19 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json
 app.use(bodyParser.json());
 
+//habilitar la capeta public para que todos lo puedan ver
+//para que se pueda acceder desde cualquier lugar
+//implementar el middleware para hacer publico todo ese directorio
+
+//podemos mandar x cantidad de argumentos para crear ese path correcto
+//lo que hacemos es mandar segmentos del path y este metodo lo va armar por nosotros
+app.use(express.static(path.resolve(__dirname, '../public') ) );
+//console.log(path.resolve(__dirname, '../public') );
+
 
 //Configuración global de rutas
 app.use(require('./routes/index'));
+
 
 
 
@@ -52,3 +63,6 @@ app.listen(process.env.PORT, () => {
 
 
 //https://github.com/Klerith/node-restserver-curso/releases/tag/v0.0.2
+
+//https://github.com/Klerith/node-restserver-curso/releases/tag/v0.1.0
+
